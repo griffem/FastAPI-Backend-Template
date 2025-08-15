@@ -1,0 +1,53 @@
+[tool.poetry]
+name = "fastapi-postgres-template"
+version = "0.1.0"
+description = "Reusable FastAPI + Postgres API template (Poetry) with one GET and tests."
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.13"
+fastapi = "^0.116.1"
+uvicorn = {version="^0.35.0", extras=["standard"]}
+psycopg = {version="^3.2.9", extras=["binary"]}
+sqlalchemy = "^2.0.43"
+pydantic = "^2.11.7"
+pydantic-settings = "^2.10.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
+httpx = "^0.28.1"
+ruff = "^0.12.9"
+black = "^25.1.0"
+mypy = "^1.17.1"
+pytest-cov = "^6.2.1"
+poethepoet = "^0.37.0"
+types-requests = "^2.32.4.20250809"
+
+[tool.poe.tasks]
+run = "uvicorn app.main:app --reload"
+test = "pytest -q"
+lint = "ruff check ."
+fmt = "ruff check --fix . && black ."
+typecheck = "mypy app"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["alembic"]
+
+[tool.black]
+line-length = 100
+target-version = ["py313"]
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[build-system]
+package-mode = false
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
