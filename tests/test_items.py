@@ -4,14 +4,19 @@ os.environ["RUN_MIGRATIONS"] = "False"
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from app.main import app
 from app import models
 from app.db import Base
 from app.deps import get_db
 
-TEST_DB_URL = "sqlite+pysqlite:///:memory:"
-engine = create_engine(TEST_DB_URL, connect_args={"check_same_thread": False})
+engine = create_engine(
+    "sqlite+pysqlite:///:memory:",
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
+
 TestingSessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
