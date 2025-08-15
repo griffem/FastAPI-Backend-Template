@@ -40,4 +40,4 @@ poetry run poe typecheck
 ## Docker (API + DB)
 ```bash
 docker compose up --build
-``'
+```
